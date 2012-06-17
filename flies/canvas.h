@@ -9,8 +9,6 @@
 
 const float INACCURACY = 50.;
 const int ANIM_STEPS = 6;
-const int VERTS_NUMBER = 24;
-const int FLIES_NUMBER = 8;
 
 class Canvas : public QWidget
 {
@@ -19,20 +17,24 @@ class Canvas : public QWidget
     QList<QPointF> verts;
     QList<QPointF> allVerts;
     int vertIndex;
-    int flyAllVertsIndexes[FLIES_NUMBER];
-    int flyVertIndexes[FLIES_NUMBER];
-    int flyStep[FLIES_NUMBER];
+    int *flyAllVertsIndexes;
+    int *flyVertIndexes;
+    int *flyStep;
     QTimer vertRegenTimer;
     QTimer flyMoveTimer;
     int maxRadius;
     QImage flyImages[2];
 
+    int vertsNumber;
+    int fliesNumber;
+
     bool visibleCurve;
 
     bool fliesBetweenVerts(int vertIndex);
-    void generateVerts();
+    void generateVerts(bool regen = false);
     void interpolateAllVerts();
     bool longFromVerts(float x, float y, float distance);
+    void installFlies();
     QPointF getRandomVertex();
 
 public:
@@ -44,10 +46,6 @@ protected:
     void paintEvent(QPaintEvent *);
     void drawFly(int flyAllVertsIndex, int flyNumber);
     void drawCurve(QPainter & p);
-    /*void mouseMoveEvent(QMouseEvent *event);
-    void wheelEvent(QWheelEvent *event);
-    void mousePressEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);*/
 
 public slots:
     void on_vertRegenTimer_timeout();
@@ -60,6 +58,17 @@ public slots:
     {
         this->maxRadius = maxRadius;
     }
+    void setVertsNumber(int vertsn)
+    {
+        vertsNumber = vertsn;
+        fliesNumber = vertsn / 3;
+        installFlies();
+
+        QString str = QString("(%1 flies)").arg(fliesNumber);
+        emit fliesNumberChanged(str);
+    }
+signals:
+    void fliesNumberChanged(QString text);
 };
 
 #endif

@@ -19,17 +19,12 @@ Canvas::Canvas(QWidget *parent)
 
     maxRadius = 200;
     srand(time(0));
-    vertIndex = 0;
-    memset(&flyAllVertsIndexes, 0, sizeof(int) * FLIES_NUMBER);
-    memset(&flyVertIndexes, 0, sizeof(int) * FLIES_NUMBER);
-    memset(&flyStep, 0, sizeof(int) * FLIES_NUMBER);
-    generateVerts();
-    interpolateAllVerts();
 
-    for (int fi = 0, vi = 0; fi < FLIES_NUMBER; ++fi, vi += 3) {
-        flyVertIndexes[fi] = vi;
-        flyAllVertsIndexes[fi] = allVerts.indexOf(verts[flyVertIndexes[fi]]);
-    }
+    flyAllVertsIndexes = 0;
+    flyVertIndexes = 0;
+    flyStep = 0;
+    setVertsNumber(24);
+    //installFlies();
 
     connect(&vertRegenTimer, SIGNAL(timeout()),
             this, SLOT(on_vertRegenTimer_timeout()));
@@ -41,19 +36,47 @@ Canvas::Canvas(QWidget *parent)
 
 Canvas::~Canvas()
 {
+    if (flyAllVertsIndexes != 0 && flyVertIndexes != 0 && flyStep != 0) {
+        free(flyAllVertsIndexes);
+        free(flyVertIndexes);
+        free(flyStep);
+    }
 }
 
-void Canvas::generateVerts()
+void Canvas::installFlies()
 {
-    if (verts.size() < VERTS_NUMBER) {
+    vertIndex = 0;
+
+    if (flyAllVertsIndexes != 0 && flyVertIndexes != 0 && flyStep != 0) {
+        free(flyAllVertsIndexes);
+        free(flyVertIndexes);
+        free(flyStep);
+    }
+
+    flyAllVertsIndexes = (int *)calloc(fliesNumber, sizeof(int));
+    flyVertIndexes = (int *)calloc(fliesNumber, sizeof(int));
+    flyStep = (int *)calloc(fliesNumber, sizeof(int));
+    generateVerts(true);
+    interpolateAllVerts();
+
+    for (int fi = 0, vi = 0; fi < fliesNumber; ++fi, vi += 3) {
+        flyVertIndexes[fi] = vi;
+        flyAllVertsIndexes[fi] = allVerts.indexOf(verts[flyVertIndexes[fi]]);
+    }
+}
+
+void Canvas::generateVerts(bool regen)
+{
+    if (regen || verts.size() < vertsNumber) {
         vertIndex = 0;
-        for (int i = 0; i < VERTS_NUMBER; ++i)
+        verts.clear();
+        for (int i = 0; i < vertsNumber; ++i)
             verts.push_back(getRandomVertex());
     } else {
         // skipping vertices that have flies between
         do {
             vertIndex++;
-            if (vertIndex >= VERTS_NUMBER)
+            if (vertIndex >= vertsNumber)
                 vertIndex = 0;
         } while (fliesBetweenVerts(vertIndex));
 
@@ -63,7 +86,7 @@ void Canvas::generateVerts()
 
 bool Canvas::fliesBetweenVerts(int vertIndex)
 {
-    for (int i = 0; i < FLIES_NUMBER; ++i) {
+    for (int i = 0; i < fliesNumber; ++i) {
         int flyVertIndex = flyVertIndexes[i];
         if (flyVertIndex == vertIndex ||
             flyVertIndex + 1 == vertIndex ||
@@ -122,7 +145,7 @@ void Canvas::paintEvent(QPaintEvent *)
     if (visibleCurve)
         drawCurve(p);
 
-    for (int i = 0; i < FLIES_NUMBER; ++i)
+    for (int i = 0; i < fliesNumber; ++i)
         drawFly(flyAllVertsIndexes[i], i);
 }
 
@@ -225,7 +248,7 @@ void Canvas::on_vertRegenTimer_timeout()
 
 void Canvas::on_flyMoveTimer_timeout()
 {
-    for (int fi = 0; fi < FLIES_NUMBER; ++fi) {
+    for (int fi = 0; fi < fliesNumber; ++fi) {
         int & flyVertIndex = flyVertIndexes[fi];
         int & flyAllVertsIndex = flyAllVertsIndexes[fi];
         flyStep[fi]++;
