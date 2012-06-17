@@ -26,8 +26,8 @@ Canvas::Canvas(QWidget *parent)
     generateVerts();
     interpolateAllVerts();
 
-    for (int fi = 0; fi < FLIES_NUMBER; ++fi) {
-        flyVertIndexes[fi] = fi;
+    for (int fi = 0, vi = 0; fi < FLIES_NUMBER; ++fi, vi += 3) {
+        flyVertIndexes[fi] = vi;
         flyAllVertsIndexes[fi] = allVerts.indexOf(verts[flyVertIndexes[fi]]);
     }
 

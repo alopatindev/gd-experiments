@@ -9,7 +9,7 @@
 
 const float INACCURACY = 50.;
 const int ANIM_STEPS = 6;
-const int VERTS_NUMBER = 20;
+const int VERTS_NUMBER = 24;
 const int FLIES_NUMBER = 8;
 
 class Canvas : public QWidget
