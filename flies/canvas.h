@@ -31,7 +31,7 @@ class Canvas : public QWidget
     bool visibleCurve;
 
     bool fliesBetweenVerts(int vertIndex);
-    void generateVerts(bool regen = false);
+    void generateVerts();
     void interpolateAllVerts();
     bool longFromVerts(float x, float y, float distance);
     void installFlies();

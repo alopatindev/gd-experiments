@@ -56,7 +56,8 @@ void Canvas::installFlies()
     flyAllVertsIndexes = (int *)calloc(fliesNumber, sizeof(int));
     flyVertIndexes = (int *)calloc(fliesNumber, sizeof(int));
     flyStep = (int *)calloc(fliesNumber, sizeof(int));
-    generateVerts(true);
+    verts.clear();
+    generateVerts();
     interpolateAllVerts();
 
     for (int fi = 0, vi = 0; fi < fliesNumber; ++fi, vi += 3) {
@@ -65,11 +66,10 @@ void Canvas::installFlies()
     }
 }
 
-void Canvas::generateVerts(bool regen)
+void Canvas::generateVerts()
 {
-    if (regen || verts.size() < vertsNumber) {
+    if (verts.size() < vertsNumber) {
         vertIndex = 0;
-        verts.clear();
         for (int i = 0; i < vertsNumber; ++i)
             verts.push_back(getRandomVertex());
     } else {
