@@ -24,7 +24,6 @@ Canvas::Canvas(QWidget *parent)
     flyVertIndexes = 0;
     flyStep = 0;
     setVertsNumber(24);
-    //installFlies();
 
     connect(&vertRegenTimer, SIGNAL(timeout()),
             this, SLOT(on_vertRegenTimer_timeout()));
@@ -241,13 +240,19 @@ void Canvas::interpolateAllVerts()
 
 void Canvas::on_vertRegenTimer_timeout()
 {
+    mutex.lock();
+
     generateVerts();
     interpolateAllVerts();
     emit update();
+
+    mutex.unlock();
 }
 
 void Canvas::on_flyMoveTimer_timeout()
 {
+    mutex.lock();
+
     for (int fi = 0; fi < fliesNumber; ++fi) {
         int & flyVertIndex = flyVertIndexes[fi];
         int & flyAllVertsIndex = flyAllVertsIndexes[fi];
@@ -283,4 +288,6 @@ void Canvas::on_flyMoveTimer_timeout()
     }
 
     emit update();
+
+    mutex.unlock();
 }

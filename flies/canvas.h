@@ -6,6 +6,7 @@
 #include <QPointF>
 #include <QTimer>
 #include <QImage>
+#include <QMutex>
 
 const float INACCURACY = 50.;
 const int ANIM_STEPS = 6;
@@ -24,6 +25,7 @@ class Canvas : public QWidget
     QTimer flyMoveTimer;
     int maxRadius;
     QImage flyImages[2];
+    QMutex mutex;
 
     int vertsNumber;
     int fliesNumber;
@@ -60,12 +62,16 @@ public slots:
     }
     void setVertsNumber(int vertsn)
     {
+        mutex.lock();
+
         vertsNumber = vertsn;
         fliesNumber = vertsn / 3;
         installFlies();
 
         QString str = QString("(%1 flies)").arg(fliesNumber);
         emit fliesNumberChanged(str);
+
+        mutex.unlock();
     }
 signals:
     void fliesNumberChanged(QString text);
