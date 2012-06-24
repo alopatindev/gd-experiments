@@ -16,7 +16,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::run()
 {
-    CL_DisplayWindow window("Pendulum demo", 640, 480);
+    CL_DisplayWindow window("Pendulum demo", WINDOW_WIDTH, WINDOW_HEIGHT);
 
     CL_GraphicContext gc = window.get_gc();
     CL_InputContext ic = window.get_ic();
