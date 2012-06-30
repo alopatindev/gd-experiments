@@ -8,18 +8,17 @@
 //#include <ClanLib/Sound/SoundFilters/fadefilter.h>
 #include <ClanLib/Vorbis/setupvorbis.h>
 
-const int WINDOW_WIDTH = 640;
-const int WINDOW_HEIGHT = 480;
-
 class MainWindow
 {
     bool quit;
+    int windowWidth;
+    int windowHeight;
 
 public:
     MainWindow();
     virtual ~MainWindow();
 
-    void run();
+    void run(int width, int height, bool fullscreen);
     void onClose();
 };
 

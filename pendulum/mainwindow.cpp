@@ -14,9 +14,17 @@ MainWindow::~MainWindow()
 {
 }
 
-void MainWindow::run()
+void MainWindow::run(int width, int height, bool fullscreen)
 {
-    CL_DisplayWindow window("Pendulum demo", WINDOW_WIDTH, WINDOW_HEIGHT);
+    windowWidth = width;
+    windowHeight = height;
+    CL_DisplayWindow window("Pendulum demo",
+                            windowWidth,
+                            windowHeight,
+                            fullscreen);
+    CL_Rect g = window.get_geometry();
+    windowWidth = g.get_width();
+    windowHeight = g.get_height();
 
     CL_GraphicContext gc = window.get_gc();
     CL_InputContext ic = window.get_ic();
@@ -25,7 +33,7 @@ void MainWindow::run()
     );
 
     CL_ResourceManager resources = CL_ResourceManager("resources.xml");
-    Pendulum pend(gc, ic, resources);
+    Pendulum pend(gc, ic, resources, &window);
 
     uint currentTime = 0;
     int dt = 0;
@@ -35,7 +43,7 @@ void MainWindow::run()
         if (ic.get_keyboard().get_keycode(CL_KEY_ESCAPE))
             quit = true;
 
-        CL_Draw::fill(gc, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, CL_Colorf::white);
+        CL_Draw::fill(gc, 0, 0, windowWidth, windowHeight, CL_Colorf::white);
         pend.update(dt);
 
         window.flip(0);

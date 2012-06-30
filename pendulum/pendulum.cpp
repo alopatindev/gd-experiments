@@ -1,19 +1,20 @@
 #include "pendulum.h"
-#include "mainwindow.h"
 //#include <iostream>
 
 using namespace std;
 
 Pendulum::Pendulum(CL_GraphicContext & gc,
                    CL_InputContext & ic,
-                   CL_ResourceManager & resources)
+                   CL_ResourceManager & resources,
+                   CL_DisplayWindow *parent)
+    : parent(parent),
+      gc(&gc),
+      ic(&ic)
 {
     timer = 0;
     startAngle = 0.0f;
     currentAngle = 0.0f;
     step = 0.0f;
-    this->gc = &gc;
-    this->ic = &ic;
     lastMaxY = 0.0f;
 
     mouseDown = false;
@@ -50,8 +51,10 @@ void Pendulum::update(int dt)
             0   -   0
         */
 
+        int windowWidth = parent->get_geometry().get_width();
+
         startAngle = -( (((float)ic->get_mouse().get_x() * MAX_ANGLE) /
-                      (WINDOW_WIDTH / 2)) - MAX_ANGLE );
+                      (windowWidth / 2)) - MAX_ANGLE );
 
         if (startAngle < -MAX_ANGLE)
             startAngle = -MAX_ANGLE;
@@ -111,9 +114,11 @@ void Pendulum::update(int dt)
 void Pendulum::onMouseDown(const CL_InputEvent &, const CL_InputState &)
 {
     mouseDown = true;
+    parent->set_cursor(cl_cursor_hand);
 }
 
 void Pendulum::onMouseUp(const CL_InputEvent &, const CL_InputState &)
 {
     mouseDown = false;
+    parent->set_cursor(cl_cursor_arrow);
 }
