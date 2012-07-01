@@ -26,6 +26,8 @@ public:
                                    exception.get_message_and_stack_trace());
             console.display_close_message();
         }*/
+
+        return 0;
     }
 };
 

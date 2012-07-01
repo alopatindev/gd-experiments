@@ -1,3 +1,3 @@
 #!/bin/sh
 
-cmake CMakeLists.txt && gdb --eval-command=r ./hello
+time (cmake CMakeLists.txt && make) && gdb --eval-command=r ./hello
