@@ -5,7 +5,10 @@
 
 class Sprite : public CL_Sprite, public Rect
 {
+    float lastWidth;
+    float lastHeight;
+
 public:
     Sprite(const CL_StringRef &fullname);
-    void setWidth(float width);
+    virtual void update();
 };

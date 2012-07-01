@@ -10,5 +10,5 @@ class MyMainWindow : public MainWindow
 public:
     MyMainWindow();
     ~MyMainWindow();
-    void setup();
+    virtual void setup();
 };

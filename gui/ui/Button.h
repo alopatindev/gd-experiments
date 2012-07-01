@@ -21,8 +21,6 @@ public:
            float height = 0.f);
     ~Button();
 
-    void setWidth(float width);
-
     enum ButtonState
     {
         Released,

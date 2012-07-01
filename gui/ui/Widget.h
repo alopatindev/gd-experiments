@@ -29,8 +29,6 @@ class Widget : public Rect
 
     Rect m_viewPort;
 
-    Sprite * m_sprite;
-
     String m_title;
 
 public:
@@ -67,10 +65,6 @@ public:
 
     void setViewPort(float x, float y, float width, float height);
     void setViewPort(Rect & rect);
-
-    void setSprite(Sprite * sprite);
-
-    virtual void setWidth(float width);
 
 protected:
     virtual void draw();

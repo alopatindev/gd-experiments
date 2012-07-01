@@ -18,8 +18,6 @@ Widget::Widget(Widget * parent, float x, float y, float width, float height)
     m_mouseCursor = 0;
 
     m_viewPort = *((Rect *)this);
-
-    m_sprite = 0;
 }
 
 Widget::~Widget()
@@ -110,31 +108,14 @@ void Widget::setViewPort(Rect & rect)
     m_viewPort = rect;
 }
 
-void Widget::setSprite(Sprite * sprite)
-{
-    m_sprite = sprite;
-}
-
-void Widget::setWidth(float width)
-{
-    Rect::setWidth(width);
-    if (m_sprite)
-        m_sprite->setWidth(width);
-}
-
 void Widget::draw()
 {
-    if (!m_visible)
+    /*if (!m_visible)
         return;
 
     CL_GraphicContext * gc = DeviceScreen::getInstance().getGraphicContext();
     if (!gc)
-        return;
-
-    if (!m_sprite)
-        CL_Draw::fill(*gc, 0.f, 0.f, width(), height(), CL_Colorf::grey);
-    else
-        m_sprite->draw(*gc, x(), y());
+        return;*/
 }
 
 void Widget::update()

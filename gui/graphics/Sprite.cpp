@@ -5,17 +5,17 @@
 Sprite::Sprite(const CL_StringRef &fullname)
     : CL_Sprite(*GC, fullname, &RC)
 {
+    lastWidth = 0;
+    lastHeight = 0;
 }
 
-void Sprite::setWidth(float width)
+void Sprite::update()
 {
-    Rect::setWidth(width);
+    if (lastWidth != width() || lastHeight != height()) {
+        lastWidth = width();
+        lastHeight = height();
+        set_scale(width() / get_width(), height() / get_height());
+    }
 
-    float w, h;
-    get_scale(w, h);
-
-    // 1.  - get_width()
-    //     - width
-
-    set_scale(width / get_width(), h);
+    CL_Sprite::update();
 }

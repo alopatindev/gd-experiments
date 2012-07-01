@@ -5,6 +5,7 @@
 MainWindow::MainWindow()
 {
     m_fullscreen = false;
+    m_sprite = 0;
 }
 
 void MainWindow::setFullscreen(bool fullscreen)
@@ -54,4 +55,19 @@ void MainWindow::run()
 
 void MainWindow::setup()
 {
+}
+
+void MainWindow::draw()
+{
+    if (!m_sprite)
+        CL_Draw::fill(*GC, 0.f, 0.f, width(), height(), CL_Colorf::grey);
+    else
+        m_sprite->draw(*GC, x(), y());
+
+    Widget::draw();
+}
+
+void MainWindow::setSprite(Sprite * sprite)
+{
+    m_sprite = sprite;
 }

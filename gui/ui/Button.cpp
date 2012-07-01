@@ -46,6 +46,8 @@ void Button::draw()
         m_pressed->update();
         break;
     }
+    
+    CL_Draw::box(*GC, x(), y(), width(), height(), CL_Colorf::red);
 }
 
 void Button::update()
@@ -60,14 +62,11 @@ void Button::update()
     //if (this->collides(DeviceScreen::getInstance()))
     //    draw();
 
-    Widget::update();
-}
+    m_released->setSize(width(), height());
+    m_rollOver->setSize(width(), height());
+    m_pressed->setSize(width(), height());
 
-void Button::setWidth(float width)
-{
-    m_released->setWidth(width);
-    m_rollOver->setWidth(width);
-    m_pressed->setWidth(width);
+    Widget::update();
 }
 
 void Button::onEvent(const CL_InputEvent & event, const CL_InputState &)
