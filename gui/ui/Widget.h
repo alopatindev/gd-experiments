@@ -1,8 +1,7 @@
 #pragma once
 
-#include <set>
+#include <vector>
 #include "../graphics/geometry.h"
-#include "../graphics/Texture.h"
 #include "../graphics/Sprite.h"
 #include "../libs/String.h"
 
@@ -10,7 +9,7 @@ class Widget : public Rect
 {
     Widget * m_parent;
 
-    std::set<Widget *> m_children;
+    std::vector<Widget *> m_children;
 
     enum LayoutType {
         Float,
@@ -30,7 +29,7 @@ class Widget : public Rect
 
     Rect m_viewPort;
 
-    Texture * m_texture;
+    Sprite * m_sprite;
 
     String m_title;
 
@@ -59,6 +58,7 @@ public:
     String & getTitle();
 
     void setVisible(bool visible);
+    bool visible();
 
     // 0xFF means fully visible
     void setAlpha(int alpha);
@@ -68,9 +68,11 @@ public:
     void setViewPort(float x, float y, float width, float height);
     void setViewPort(Rect & rect);
 
-    void setTexture(Texture * texture);
+    void setSprite(Sprite * sprite);
+
+    virtual void setWidth(float width);
 
 protected:
     virtual void draw();
-    void update();
+    virtual void update();
 };

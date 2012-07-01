@@ -10,4 +10,5 @@ public:
     MainWindow();
     void setFullscreen(bool fullscreen = true);
     void run();
+    virtual void setup();
 };

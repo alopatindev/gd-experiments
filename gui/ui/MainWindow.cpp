@@ -22,13 +22,16 @@ void MainWindow::run()
                             m_fullscreen);
 
     CL_Rect g = window.get_geometry();
+
     DeviceScreen::getInstance().setSize(g.get_width(), g.get_height());
     setSize(g.get_width(), g.get_height());
+    setWidth(g.get_width());
 
     CL_GraphicContext gc = window.get_gc();
     CL_InputContext ic = window.get_ic();
     DeviceScreen::getInstance().setGraphicContext(&gc);
     DeviceScreen::getInstance().setInputContext(&ic);
+    setup();
 
     /*CL_Slot slotQuit = window.sig_window_close().connect(
         this,
@@ -47,4 +50,8 @@ void MainWindow::run()
         CL_System::sleep(1);
         dt = (int)(CL_System::get_time() - currentTime);
     }
+}
+
+void MainWindow::setup()
+{
 }

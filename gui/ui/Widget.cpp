@@ -19,7 +19,7 @@ Widget::Widget(Widget * parent, float x, float y, float width, float height)
 
     m_viewPort = *((Rect *)this);
 
-    m_texture = 0;
+    m_sprite = 0;
 }
 
 Widget::~Widget()
@@ -31,6 +31,10 @@ Widget::~Widget()
 
 void Widget::addWidget(Widget * widget, bool pushBack)
 {
+    if (pushBack)
+        m_children.push_back(widget);
+    else
+        m_children.insert(m_children.begin(), widget);
 }
 
 void Widget::setLayout(LayoutType layout)
@@ -79,6 +83,11 @@ void Widget::setVisible(bool visible)
     m_visible = visible;
 }
 
+bool Widget::visible()
+{
+    return m_visible;
+}
+
 void Widget::setAlpha(int alpha)
 {
     m_alpha = alpha;
@@ -101,9 +110,16 @@ void Widget::setViewPort(Rect & rect)
     m_viewPort = rect;
 }
 
-void Widget::setTexture(Texture * texture)
+void Widget::setSprite(Sprite * sprite)
 {
-    m_texture = texture;
+    m_sprite = sprite;
+}
+
+void Widget::setWidth(float width)
+{
+    Rect::setWidth(width);
+    if (m_sprite)
+        m_sprite->setWidth(width);
 }
 
 void Widget::draw()
@@ -112,9 +128,13 @@ void Widget::draw()
         return;
 
     CL_GraphicContext * gc = DeviceScreen::getInstance().getGraphicContext();
+    if (!gc)
+        return;
 
-    if (!m_texture && gc)
+    if (!m_sprite)
         CL_Draw::fill(*gc, 0.f, 0.f, width(), height(), CL_Colorf::grey);
+    else
+        m_sprite->draw(*gc, x(), y());
 }
 
 void Widget::update()

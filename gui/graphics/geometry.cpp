@@ -108,6 +108,29 @@ bool Rect::collides(Rect * rect)
     return byX && byY;
 }
 
+bool Rect::collides(float x, float y)
+{
+    bool byX = (x >= m_x && x <= m_x + m_width);
+    bool byY = (y >= m_y && y <= m_y + m_height);
+
+    return byX && byY;
+}
+
+bool Rect::collides(int x, int y)
+{
+    return collides((float)x, (float)y);
+}
+
+bool Rect::collides(Point2 & point)
+{
+    return collides(point.x(), point.y());
+}
+
+bool Rect::collides(Point2 * point)
+{
+    return collides(point->x(), point->y());
+}
+
 float Point2::x()
 {
     return m_x;

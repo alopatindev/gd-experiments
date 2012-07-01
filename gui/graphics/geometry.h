@@ -2,6 +2,8 @@
 
 #include <vector>
 
+class Point2;
+
 class Rect
 {
     float m_x, m_y;
@@ -10,15 +12,15 @@ class Rect
 public:
     Rect(float x = 0.f, float y = 0.f, float width = 0.f, float height = 0.f);
     ~Rect();
-    void setCoords(float x0, float y0, float x1, float y1);
-    void setCoords(float x0, float y0);
-    void setX(float x);
-    void setY(float y);
-    void setWidth(float width);
-    void setHeight(float height);
-    void setSize(float width, float height);
-    void setX1(float x1);
-    void setY1(float y1);
+    virtual void setCoords(float x0, float y0, float x1, float y1);
+    virtual void setCoords(float x0, float y0);
+    virtual void setX(float x);
+    virtual void setY(float y);
+    virtual void setWidth(float width);
+    virtual void setHeight(float height);
+    virtual void setSize(float width, float height);
+    virtual void setX1(float x1);
+    virtual void setY1(float y1);
     float x();
     float y();
     float x1();
@@ -27,6 +29,10 @@ public:
     float height();
     bool collides(Rect & rect);
     bool collides(Rect * rect);
+    bool collides(float x, float y);
+    bool collides(int x, int y);
+    bool collides(Point2 & point);
+    bool collides(Point2 * point);
 };
 
 class Point2

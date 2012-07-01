@@ -13,7 +13,6 @@ ScreenClass::ScreenClass()
 
 ScreenClass::~ScreenClass()
 {
-    std::cout << "~Screen" << std::endl;
     delete m_setupCore;
     delete m_setupDisplay;
     delete m_setupOpenGl1;

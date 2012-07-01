@@ -32,3 +32,7 @@ public:
 };
 
 typedef Singleton<ScreenClass> DeviceScreen;
+
+#define GC (DeviceScreen::getInstance().getGraphicContext())
+#define IC (DeviceScreen::getInstance().getInputContext())
+#define MOUSE (IC->get_mouse())

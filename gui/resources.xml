@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <section name="menu">
+        <section name="button">
+            <sprite name="released">
+                <image file="images/menu/button/released.png" />
+            </sprite>
+            <sprite name="roll_over">
+                <image file="images/menu/button/roll_over.png">
+                    <grid size="200,80" array="1,3" />
+                </image>
+                <animation speed="200" loop="yes" pingpong="no" />
+            </sprite>
+            <sprite name="pressed">
+                <image file="images/menu/button/pressed.png" />
+            </sprite>
+        </section>
+    </section>
+</resources>
