@@ -18,7 +18,7 @@ public:
             String title("Hello!");
             mainWindow.setTitle(title);
             mainWindow.setSize(640, 480);
-            mainWindow.setFullscreen();
+            //mainWindow.setFullscreen();
             mainWindow.run();
         /*} catch (CL_Exception & exception) {
             CL_ConsoleWindow console("Console", 80, 160);

@@ -2,16 +2,11 @@
 
 #include "Widget.h"
 
-#include <ClanLib/Display/Window/input_event.h>
-#include <ClanLib/Display/Window/input_state.h>
-#include <ClanLib/Core/Signals/slot.h>
-
 class Button : public Widget
 {
     Sprite * m_released;
     Sprite * m_rollOver;
     Sprite * m_pressed;
-    CL_Slot slotUp, slotDown;
 
 public:
     Button(Widget * parent = 0,
@@ -21,15 +16,7 @@ public:
            float height = 0.f);
     ~Button();
 
-    enum ButtonState
-    {
-        Released,
-        RollOver,
-        Pressed
-    } state;
-
 protected:
     void draw();
     void update();
-    void onEvent(const CL_InputEvent & event, const CL_InputState &);
 };

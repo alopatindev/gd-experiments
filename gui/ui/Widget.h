@@ -5,6 +5,11 @@
 #include "../graphics/Sprite.h"
 #include "../libs/String.h"
 
+#include <ClanLib/Display/Window/input_event.h>
+#include <ClanLib/Display/Window/input_state.h>
+#include <ClanLib/Core/Signals/slot.h>
+#include "../libs/sigslot.h"
+
 class Widget : public Rect
 {
     Widget * m_parent;
@@ -30,6 +35,9 @@ class Widget : public Rect
     Rect m_viewPort;
 
     String m_title;
+
+    CL_Slot slotUp;
+    CL_Slot slotDown;
 
 public:
     Widget(Widget * parent = 0,
@@ -66,7 +74,19 @@ public:
     void setViewPort(float x, float y, float width, float height);
     void setViewPort(Rect & rect);
 
+    enum InputState
+    {
+        Released,
+        RollOver,
+        Pressed
+    } state;
+
+    // slots
+    sigslot::signal0<> onPress;
+
 protected:
     virtual void draw();
     virtual void update();
+    void enableInputEvents();
+    void inputEvent(const CL_InputEvent & event, const CL_InputState &);
 };

@@ -18,6 +18,8 @@ Widget::Widget(Widget * parent, float x, float y, float width, float height)
     m_mouseCursor = 0;
 
     m_viewPort = *((Rect *)this);
+    
+    state = Released;
 }
 
 Widget::~Widget()
@@ -120,9 +122,39 @@ void Widget::draw()
 
 void Widget::update()
 {
+    if (state != Pressed) {
+        if (this->collides(MOUSE.get_x(), MOUSE.get_y()))
+            state = RollOver;
+        else
+            state = Released;
+    }
+
     if (this->collides(DeviceScreen::getInstance()))
         draw();
 
     for (auto child = m_children.begin(); child != m_children.end(); ++child)
         (*child)->update();
+}
+
+void Widget::enableInputEvents()
+{
+    slotDown = MOUSE.sig_key_down().connect(this, &Widget::inputEvent);
+    slotUp = MOUSE.sig_key_up().connect(this, &Widget::inputEvent);
+}
+
+void Widget::inputEvent(const CL_InputEvent & event, const CL_InputState &)
+{
+    switch (event.type) {
+    case CL_InputEvent::pressed:
+        if (this->collides(MOUSE.get_x(), MOUSE.get_y())) {
+            state = Pressed;
+            onPress.emit();
+        }
+        break;
+    case CL_InputEvent::released:
+        state = Released;
+        break;
+    default:
+        break;
+    }
 }

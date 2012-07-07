@@ -33,6 +33,7 @@ add_executable(hello
     libs/DeviceScreen.cpp
     libs/ResourceManager.h
     libs/DeviceScreen.h
+    libs/sigslot.h
     graphics/geometry.h
     graphics/Sprite.cpp
     graphics/Sprite.h
