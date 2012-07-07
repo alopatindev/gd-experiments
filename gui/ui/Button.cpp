@@ -28,7 +28,7 @@ void Button::draw()
     if (!visible())
         return;
 
-    switch (state) {
+    switch (m_state) {
     case Released:
         m_released->draw(*GC, x(), y());
         m_released->update();

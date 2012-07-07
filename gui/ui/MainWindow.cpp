@@ -50,6 +50,7 @@ void MainWindow::run()
         CL_KeepAlive::process();
         CL_System::sleep(1);
         dt = (int)(CL_System::get_time() - currentTime);
+        DeviceScreen::getInstance().setDt(dt);
     }
 }
 

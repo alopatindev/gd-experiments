@@ -15,11 +15,11 @@ MyMainWindow::~MyMainWindow()
 void MyMainWindow::setup()
 {
     okay = new Button(this, 50.f, 80.f, 100.0f, 40.f);
-    okay->onPress.connect(this, &MyMainWindow::on_Button_press);
+    okay->onDoubleClick.connect(this, &MyMainWindow::on_Button_doubleClick);
     addWidget(okay);
 }
 
-void MyMainWindow::on_Button_press()
+void MyMainWindow::on_Button_doubleClick()
 {
-    cout << "onPress" << endl;
+    cout << "onDoubleClick" << endl;
 }

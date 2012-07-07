@@ -9,6 +9,7 @@ ScreenClass::ScreenClass()
     m_setupSwrender = new CL_SetupSWRender;
     m_ic = 0;
     m_gc = 0;
+    m_dt = 0;
 }
 
 ScreenClass::~ScreenClass()
@@ -37,4 +38,14 @@ CL_GraphicContext * ScreenClass::getGraphicContext()
 CL_InputContext * ScreenClass::getInputContext()
 {
     return m_ic;
+}
+
+void ScreenClass::setDt(int dt)
+{
+    m_dt = dt;
+}
+
+int ScreenClass::getDt()
+{
+    return m_dt;
 }

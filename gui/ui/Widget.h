@@ -38,6 +38,7 @@ class Widget : public Rect
 
     CL_Slot slotUp;
     CL_Slot slotDown;
+    int m_doubleClickTimer;
 
 public:
     Widget(Widget * parent = 0,
@@ -79,10 +80,13 @@ public:
         Released,
         RollOver,
         Pressed
-    } state;
+    } m_state;
 
     // slots
     sigslot::signal0<> onPress;
+    sigslot::signal0<> onRelease;
+    sigslot::signal0<> onClick;
+    sigslot::signal0<> onDoubleClick;
 
 protected:
     virtual void draw();

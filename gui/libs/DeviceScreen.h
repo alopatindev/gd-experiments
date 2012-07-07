@@ -21,6 +21,7 @@ class ScreenClass : public Rect
     CL_SetupSWRender * m_setupSwrender;
     CL_GraphicContext * m_gc;
     CL_InputContext * m_ic;
+    int m_dt;
 
 public:
     ScreenClass();
@@ -29,10 +30,15 @@ public:
     void setInputContext(CL_InputContext * ic);
     CL_GraphicContext * getGraphicContext();
     CL_InputContext * getInputContext();
+    void setDt(int dt);
+    int getDt();
 };
 
 typedef Singleton<ScreenClass> DeviceScreen;
 
 #define GC (DeviceScreen::getInstance().getGraphicContext())
 #define IC (DeviceScreen::getInstance().getInputContext())
+#define DT (DeviceScreen::getInstance().getDt())
 #define MOUSE (IC->get_mouse())
+#define MOUSE_X (IC->get_mouse().get_x())
+#define MOUSE_Y (IC->get_mouse().get_y())

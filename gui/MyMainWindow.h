@@ -12,5 +12,5 @@ public:
     MyMainWindow();
     ~MyMainWindow();
     virtual void setup();
-    void on_Button_press();
+    void on_Button_doubleClick();
 };

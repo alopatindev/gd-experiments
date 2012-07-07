@@ -19,7 +19,9 @@ Widget::Widget(Widget * parent, float x, float y, float width, float height)
 
     m_viewPort = *((Rect *)this);
     
-    state = Released;
+    m_state = Released;
+
+    m_doubleClickTimer = -1;
 }
 
 Widget::~Widget()
@@ -122,13 +124,20 @@ void Widget::draw()
 
 void Widget::update()
 {
-    if (state != Pressed) {
-        if (this->collides(MOUSE.get_x(), MOUSE.get_y()))
-            state = RollOver;
+    if (m_state != Pressed) {
+        if (this->collides(MOUSE_X, MOUSE_Y))
+            m_state = RollOver;
         else
-            state = Released;
+            m_state = Released;
     }
 
+    if (m_doubleClickTimer >= 0 && m_state != Pressed)
+    {
+        m_doubleClickTimer += DT;
+        if (m_doubleClickTimer > 500)
+            m_doubleClickTimer = -1;
+    }
+    
     if (this->collides(DeviceScreen::getInstance()))
         draw();
 
@@ -146,13 +155,25 @@ void Widget::inputEvent(const CL_InputEvent & event, const CL_InputState &)
 {
     switch (event.type) {
     case CL_InputEvent::pressed:
-        if (this->collides(MOUSE.get_x(), MOUSE.get_y())) {
-            state = Pressed;
+        if (this->collides(MOUSE_X, MOUSE_Y)) {
+            m_state = Pressed;
+            if (m_doubleClickTimer < 0)
+                m_doubleClickTimer = 0;
             onPress.emit();
         }
         break;
     case CL_InputEvent::released:
-        state = Released;
+        m_state = Released;
+        if (this->collides(MOUSE_X, MOUSE_Y)) {
+            onClick.emit();
+            if (m_doubleClickTimer == 0)
+                m_doubleClickTimer = DT;
+            else if (m_doubleClickTimer > 0 && m_doubleClickTimer < 500) {
+                onDoubleClick.emit();
+                m_doubleClickTimer = -1;
+            }
+        }
+        onRelease.emit();
         break;
     default:
         break;
